@@ -1,25 +1,94 @@
 import logo from './logo.svg';
 import './App.css';
+import Movie from './components/Movie';
+import { useEffect, useState } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    let [movies, setMovies] = useState([])
+    let [showModal, setShowModal] = useState(false)
+    let [modalMovieName, setModalMovieName] = useState("")
+    let [modalMovieUrl, setModalMovieUrl] = useState("")
+    let [modalMovieRating, setModalMovieRating] = useState(0)
+
+    useEffect(() => {
+        //insert code that gets all the data from the movies
+
+        setMovies([
+            {
+                posterUrl: "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg",
+                movieName: "Black Panther",
+                rating: 2
+            },
+            {
+                posterUrl: "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg",
+                movieName: "Black Panther",
+                rating: 3
+            },
+            {
+                posterUrl: "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg",
+                movieName: "Black Panther",
+                rating: 5
+            }
+        ]) // comment out this line and call setMovies() with data from database as the values
+    }, [])
+
+    const addMovie = () => {
+        //insert code to add movie to database
+    }
+
+    return (
+        <div className=''>
+            <div className='flex justify-between items-center w-full py-6 px-20 bg-slate-600'>
+                <p className='text-2xl font-semibold text-gray-200'>Movie App</p>
+                <div className='bg-blue-400 px-4 py-2 rounded text-white cursor-pointer'
+                    onClick={() => {
+                        console.log("HERE")
+                        setShowModal(true)
+                    }}>
+                    <p>Add Movie</p>
+                </div>
+            </div>
+            <div className='grid grid-cols-4 px-20 gap-10 mt-6'>
+                {
+                    movies.map((movie, index) => {
+                        return (
+                            <Movie posterUrl={movie.posterUrl} movieName={movie.movieName} rating={movie.rating} />
+                        )
+                    })
+                }
+            </div>
+            {
+                showModal &&
+                <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+                    <div class="fixed inset-0 z-10 overflow-y-auto">
+                        <div class="flex min-h-full items-end justify-center text-center sm:items-center">
+                            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg bg-white px-10 py-6">
+                                <div class="w-full mt-3 text-center sm:mt-0 sm:text-left">
+                                    <h3 class="text-xl font-medium leading-6 text-gray-900" id="modal-title">Add Movie</h3>
+                                    <div class="mt-4 w-full">
+                                        <div className='w-full space-y-4'>
+                                            <input className='border w-full outline-red-blue-500 py-1 px-2 rounded' type="text" onChange={(e) => { setModalMovieName(e.target.value) }} placeholder="Movie Name" />
+                                            <input className='border w-full outline-red-blue-500 py-1 px-2 rounded' type="text" onChange={(e) => { setModalMovieUrl(e.target.value) }} placeholder="Movie Poster" />
+                                            <input className='border w-full outline-red-blue-500 py-1 px-2 rounded' type="text" onChange={(e) => { setModalMovieRating(e.target.value) }} placeholder="Movie Rating" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pt-3 sm:flex sm:flex-row-reverse">
+                                    <button type="button" class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Add</button>
+                                    <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                        onClick={() => { setShowModal(false) }}>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    );
 }
 
 export default App;
