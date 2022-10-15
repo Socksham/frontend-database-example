@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Movie from './components/Movie';
 import { useEffect, useState } from 'react';
+import UploadImage from './components/UploadImage';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
     let [modalMovieName, setModalMovieName] = useState("")
     let [modalMovieUrl, setModalMovieUrl] = useState("")
     let [modalMovieRating, setModalMovieRating] = useState(0)
+    let [file, setFile] = useState(null)
 
     useEffect(() => {
         //insert code that gets all the data from the movies
@@ -29,19 +31,40 @@ function App() {
                 posterUrl: "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg",
                 movieName: "Black Panther",
                 rating: 5
+            },
+            {
+                posterUrl: "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg",
+                movieName: "Black Panther",
+                rating: 5
+            },
+            {
+                posterUrl: "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg",
+                movieName: "Black Panther",
+                rating: 5
             }
         ]) // comment out this line and call setMovies() with data from database as the values
     }, [])
 
     const addMovie = () => {
         //insert code to add movie to database
+        if(rating <= 5){
+            let tempMoviesArr = movies
+            tempMoviesArr.push(
+                {
+                    posterUrl: file,
+                    movieName: modalMovieName,
+                    rating: modalMovieRating
+                }
+            )
+            setShowModal(false)
+        }
     }
 
     return (
         <div className=''>
-            <div className='flex justify-between items-center w-full py-6 px-20 bg-slate-600'>
+            <div className='flex justify-between items-center w-full py-4 px-20 bg-slate-800'>
                 <p className='text-2xl font-semibold text-gray-200'>Movie App</p>
-                <div className='bg-blue-400 px-4 py-2 rounded text-white cursor-pointer'
+                <div className='bg-blue-600 px-4 py-2 rounded text-white cursor-pointer'
                     onClick={() => {
                         console.log("HERE")
                         setShowModal(true)
@@ -49,7 +72,7 @@ function App() {
                     <p>Add Movie</p>
                 </div>
             </div>
-            <div className='grid grid-cols-4 px-20 gap-10 mt-6'>
+            <div className='grid grid-cols-4 px-20 gap-8 pt-6 bg-slate-900 pb-8'>
                 {
                     movies.map((movie, index) => {
                         return (
@@ -71,13 +94,20 @@ function App() {
                                     <div class="mt-4 w-full">
                                         <div className='w-full space-y-4'>
                                             <input className='border w-full outline-red-blue-500 py-1 px-2 rounded' type="text" onChange={(e) => { setModalMovieName(e.target.value) }} placeholder="Movie Name" />
-                                            <input className='border w-full outline-red-blue-500 py-1 px-2 rounded' type="text" onChange={(e) => { setModalMovieUrl(e.target.value) }} placeholder="Movie Poster" />
-                                            <input className='border w-full outline-red-blue-500 py-1 px-2 rounded' type="text" onChange={(e) => { setModalMovieRating(e.target.value) }} placeholder="Movie Rating" />
+                                            <UploadImage file={file} setFile={setFile} />
+                                            <div className='flex space-x-2 items-center'>
+                                                <p>Rating: </p>
+                                                <input className='border w-10 outline-red-blue-500 py-1 px-2 rounded' type="text" onChange={(e) => { setModalMovieRating(e.target.value) }} />
+                                                <div>
+                                                    <p>/5</p>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                                 <div class="pt-3 sm:flex sm:flex-row-reverse">
-                                    <button type="button" class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Add</button>
+                                    <button type="button" class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm" onClick={addMovie}>Add</button>
                                     <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                                         onClick={() => { setShowModal(false) }}>Cancel</button>
                                 </div>

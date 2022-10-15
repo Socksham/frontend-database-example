@@ -22,8 +22,8 @@ const Movie = ({ posterUrl, movieName, rating }) => {
 
     return (
         <div>
-            <div>
-                <img src={posterUrl} />
+            <div className='relative h-0 pb-3/2'>
+                <img className='absolute inset-0 w-full h-full' src={posterUrl} />
             </div>
             <div className='bg-slate-700 pb-4 pt-2 px-4 rounded-b'>
                 <p className='text-xl font-semibold text-gray-200 mb-1'>{movieName}</p>
