@@ -47,7 +47,7 @@ function App() {
 
     const addMovie = () => {
         //insert code to add movie to database
-        if(rating <= 5){
+        if(parseInt(modalMovieRating) <= 5){
             let tempMoviesArr = movies
             tempMoviesArr.push(
                 {
